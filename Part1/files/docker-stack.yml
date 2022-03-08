@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  goserver:
+    image: keshavprasad/go-server:0.0.1
+    deploy:
+      replicas: 1
+    ports:
+      - "8090:8090"
+    volumes:
+      - type: bind
+        source: /tmp/go-data
+        target: /var/log
+    networks:
+      - default
+  pyserver:
+    image: keshavprasad/python-server:0.0.1
+    deploy:
+      replicas: 1
+    ports:
+      - "8000:8000"
+    networks:
+      - default
+  shellapp:
+    image: keshavprasad/shell-app:0.0.1
+    deploy:
+      replicas: 1
+    configs:
+      - envconfig
+configs:
+  envconfig:
+    file: ./envfile
+
+networks:
+  default:
+    external:
+      name: shared-network-swarm

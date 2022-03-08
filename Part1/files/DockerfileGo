@@ -1,0 +1,4 @@
+FROM golang:alpine3.15
+COPY app.go /
+EXPOSE 8090
+CMD ["go", "run", "/app.go"]

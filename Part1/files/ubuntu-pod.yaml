@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ubuntu
+  name: ubuntu
+spec:
+  containers:
+  - command:
+    - sleep
+    - "10000"
+    image: ubuntu:20.04
+    name: ubuntu
+    resources:
+      limits:
+        cpu: 0.5
+        memory: 512M
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
