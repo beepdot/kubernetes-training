@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: shellappcmenv
+  name: shellappcmenv
+spec:
+  containers:
+  - image: keshavprasad/shell-app:0.0.1
+    name: shellappcmenv
+    resources: {}
+    envFrom:
+    - configMapRef:
+        name: envfromliteral
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

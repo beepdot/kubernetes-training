@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    app: pyserver-daemonset
+  name: pyserver-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: pyserver-daemonset
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: pyserver-daemonset
+    spec:
+      containers:
+      - image: keshavprasad/python-server:0.0.1
+        name: python-server
+        resources: {}

@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-server-headless
+  labels:
+    app: go-server-headless
+spec:
+  ports:
+  - port: 8090
+    name: http-port
+  clusterIP: None
+  selector:
+    app: go-server-sts
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: go-server-statefulset
+spec:
+  selector:
+    matchLabels:
+      app: go-server-sts # has to match .spec.template.metadata.labels
+  serviceName: "go-server-sts"
+  replicas: 1 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: go-server-sts # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: go-server-sts
+        image: keshavprasad/go-server:0.0.1
+        ports:
+        - containerPort: 8090
+          name: http-port
+        volumeMounts:
+        - name: log
+          mountPath: /var/log
+  volumeClaimTemplates:
+  - metadata:
+      name: log
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 1M

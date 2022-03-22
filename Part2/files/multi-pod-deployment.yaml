@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: multi-pod-deployment
+  name: multi-pod-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: multi-pod-deployment
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: multi-pod-deployment
+    spec:
+      containers:
+      - image: keshavprasad/python-server:0.0.1
+        name: python-server
+        resources: {}
+      - image: keshavprasad/shell-app:0.0.1
+        name: shell-app
+        resources: {}
+status: {}

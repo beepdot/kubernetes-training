@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: shellapp-job
+spec:
+  completions: 5
+  parallelism: 2
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: keshavprasad/shell-app:0.0.2
+        name: shellapp-job
+      restartPolicy: Never

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: shell-rs
+  labels:
+    app: shell-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shell-rs
+  template:
+    metadata:
+      labels:
+        app: shell-rs
+    spec:
+      containers:
+      - name: shell-rs
+        image: keshavprasad/shell-app:0.0.1

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: goserver-healthcheck
+  name: goserver-healthcheck
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goserver-healthcheck
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: goserver-healthcheck
+    spec:
+      containers:
+      - image: keshavprasad/go-server:0.0.2
+        name: go-server
+        resources: {}
+        livenessProbe:
+          httpGet:
+            path: /liveness
+            port: 8090
+            httpHeaders:
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 8090
+          initialDelaySeconds: 5
+          periodSeconds: 3
+          successThreshold: 2

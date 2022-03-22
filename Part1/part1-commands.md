@@ -1,3 +1,13 @@
+### Agenda
+In this session we will discuss briefly on the following topics:
+- Virtual Box, VM, Vagrant
+- Linux Namespaces and Cgroups
+- Quick intro on Docker 
+- Building docker images
+- Running containers on docker
+- Quick intro into docker swarm
+- Setup and running workloads on docker swarm
+
 #### Installing Virtual Box
 ```
 sudo apt-get update
@@ -291,153 +301,4 @@ docker service ls
 docker service logs stack_shellapp  --tail 1 -f
 curl localhost:8080/headers
 cat /tmp/go-data/go-server.log
-```
-
-#### Installing Kubernetes
-```
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-kubectl version --client
-sudo sysctl net/netfilter/nf_conntrack_max=393216
-minikube start --kubernetes-version=v1.21.0 --driver=virtualbox
-minikube addons enable metrics-server
-minikube addons enable dashboard
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-kubectl get po -A
-source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
-echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
-alias k=kubectl
-complete -F __start_kubectl k
-k get po -A
-minikube stop
-minikube start
-```
-
-#### Running Kubernetes Pods
-```
-k run --image=keshavprasad/shell-app:0.0.1 shellapp
-```
-
-#### Viewing Pod Information
-```
-k get pods
-```
-
-#### Exposing Pod and Accessing the Applications
-```
-k describe pod shellapp
-```
-
-#### Inspecting Pod Logs
-```
-k logs shellapp
-k logs shellapp --tail 1 -f
-```
-
-#### Login to the Pods
-```
-k exec -it shellapp -- sh
-ls
-hostname
-exit
-```
-
-#### Stop / Restart / Kill Pods
-```
-k delete pod shellapp
-# Stop and Restart we will see in subsequent commands
-```
-
-#### Running Pods with Replicas
-```
-k create deployment --image=keshavprasad/shell-app:0.0.1 shellapp
-k get deployments
-k get pods
-k delete pod POD_ID --grace-period 0 --force
-k get pods
-k scale deployment shellapp --replicas=2
-k get pods
-k scale deployment shellapp --replicas=0
-k get pods
-```
-
-#### Inter Pod Communication
-```
-k run --image=keshavprasad/python-server:0.0.1 pyserver
-k run --image=keshavprasad/go-server:0.0.1 goserver
-k get pods -o wide
-k exec -it goserver -- apk add curl --no-cache
-k exec -it goserver -- curl PYSERVER_POD_IP:8000
-k expose pod pyserver --port 8000 --target-port 8000
-k get svc
-k exec -it goserver -- curl pyserver:8000
-```
-
-#### Restricting Resources and Metrics
-```
-k run --image=ubuntu:20.04 ubuntu --command sleep 10000 --dry-run=client -o yaml
-k create -f ubuntu-pod.yaml
-k exec -it ubuntu -- bash
-apt update && apt install -y stress
-stress --cpu 1
-# On another terminal run
-k top pods
-k top nodes
-minikube dashboard
-```
-
-#### Namespaces
-```
-k create namespace myns
-k get ns
-k run -n myns --image=keshavprasad/go-server:0.0.1 goserver-myns
-k get pods -n myns -o wide
-k exec -n myns -it goserver-myns -- apk add curl --no-cache
-k exec -n myns -it goserver-myns -- curl --connect-timeout 1 pyserver:8000
-k exec -n myns -it goserver-myns -- curl pyserver.default:8000
-```
-
-#### Environment Variables and Configmaps
-```
-k create -f shellappenv.yaml
-k logs shellappenv --tail 10
-k create configmap --from-file envfile envfile-cm
-k get cm envfile-cm
-k get cm envfile-cm -o yaml
-k create -f shellappcm.yaml
-```
-
-#### Manifest File
-```
-ubuntu-pod.yaml shellappenv.yaml shellappcm.yaml are all called manifests files
-```
-
-#### Podman
-```
-sudo apt-get -y install podman
-sudo podman run -it --rm --env-file envfile keshavprasad/shell-app:0.0.1
-sudo podman ps
-```
-
-#### Containerd and crictl
-```
-# Cannot have both dockerd and containerd engines at the same time
-# A script will be given later to setup containerd in vagrant
-# Try to install in Vagrant
-# https://kubernetes.io/docs/tasks/debug-application-cluster/crictl/
-sudo crictl pull keshavprasad/shell-app:0.0.1
-sudo crictl images
-sudo crictl runp pod.config
-sudo crictl create 4c2fd02afacb6715ba58cad33cd2322d848deb214782089ca59fc1915717d0ba container.config pod.config
-sudo crictl ps
-sudo crictl start CONTAINER_ID
-sudo crictl ps
-sudo crictl logs CONTAINER_ID
-sudo crictl pods
-sudo crictl stop CONTAINER_ID
-sudo crictl stopp POD_ID
-sudo crictl rm CONTAINER_ID
-sudo crictl rmp POD_ID
 ```
