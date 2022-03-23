@@ -370,7 +370,7 @@ k top nodes
 minikube dashboard
 ```
 
-#### Restricting Resources and Metrics
+#### Deployment Rollout Strategies
 > Try it yourself activity
 ```
 Play around with deployment strategy types, maxSurge, maxUnavailable
@@ -392,23 +392,26 @@ sudo podman ps
 ```
 
 #### Containerd and crictl
-> Advanced use case (Try it on vagrant to be safe)
+> Advanced use case (Try it yourself on vagrant to keep your system safe)
 ```
 # Cannot have both dockerd and containerd engines at the same time
-# A script will be given later to setup containerd in vagrant
-# Try to install in Vagrant
-# https://kubernetes.io/docs/tasks/debug-application-cluster/crictl/
+# Will try to provide a script to setup containerd in Vagrant
+# More info https://kubernetes.io/docs/tasks/debug-application-cluster/crictl/
+# In case of issue - unknown service runtime.v1alpha2.ImageService 
+# Run sudo rm /etc/containerd/config.toml && sudo systemctl restart containerd
+# Remove ipv6 ranges from /etc/cni/net.d/100-crio-bridge.conf if you get error failed to set bridge addr: could not add IP address to "cni0": permission denied
+
 sudo crictl pull keshavprasad/shell-app:0.0.1
 sudo crictl images
 sudo crictl runp pod.config
-sudo crictl create 4c2fd02afacb6715ba58cad33cd2322d848deb214782089ca59fc1915717d0ba container.config pod.config
+sudo crictl create POD_ID_PREVIOUS_COMMAND container.config pod.config
 sudo crictl ps
-sudo crictl start CONTAINER_ID
+sudo crictl start CONTAINER_ID_FROM_PREVIOUS_COMMAND
 sudo crictl ps
-sudo crictl logs CONTAINER_ID
+sudo crictl logs CONTAINER_ID_FROM_PREVIOUS_COMMAND
 sudo crictl pods
-sudo crictl stop CONTAINER_ID
+sudo crictl stop CONTAINER_ID_FROM_PREVIOUS_COMMAND
 sudo crictl stopp POD_ID
-sudo crictl rm CONTAINER_ID
-sudo crictl rmp POD_ID
+sudo crictl rm CONTAINER_ID_FROM_PREVIOUS_COMMAND
+sudo crictl rmp POD_ID_PREVIOUS_COMMAND
 ```
