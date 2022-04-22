@@ -1,7 +1,7 @@
 # kubernetes-training
 Kubernetes training from beginner to advanced level
 
-### Part 1 Topics
+### Part 1 Topics (9th March 2022)
 - Virtual Box, VM, Vagrant
 - Linux Namespaces and Cgroups
 - Quick intro on Docker 
@@ -10,25 +10,25 @@ Kubernetes training from beginner to advanced level
 - Quick intro into docker swarm
 - Setup and running workloads on docker swarm
 
-### Part 2 Topics
+### Part 2 Topics (23rd March 2022)
 - Quick Intro to Kubernetes
 - Setting up Kubernetes cluster
 - Running containers on Kubernetes
-- Differences between docker swarm and kubernetes
-- Kubernetes Components and Architecture, Kubeconfig
-- ConfigMaps, Secrets, Environment Variables, Services, Headless Services
-- Namespaces, Labels, Pods, ReplicaSets, Deployments, DaemonSets, StatefulSets, Multi-Container Pods
-- Pod Logs, Probes, Resources Requests and Limits, Kubernetes Dashboard, Port Forwarding
-- Jobs and Cronjobs
+- Differences between Docker Swarm and Kubernetes
+- Kubernetes Components and Architecture
+- ConfigMaps, Secrets, Environment Variables, Services
+- Namespaces, Pods, Pod Logs
 - Tools and Shortcuts for Kubernetes
+
+### Part 3 Topics (4th May 2022)
+- Labels, ReplicaSets, Deployments, DaemonSets, StatefulSets, Multi-Container Pods
+- Kube config file, Probes, Resources Requests and Limits, Kubernetes Dashboard, Port Forwarding
+- Headless Services, Jobs and Cronjobs
 - Alternatives to docker (containerd, podman)
 
->#### Part 3 Topics
->- Coming on April 6th 2022
 
 >#### Part 4 Topics
->- Coming on April 20th 2022
-
+>- To be announced
 
 >#### Part 5 Topics
->- Coming on May 18th (Tentative)
+>- To be announced
