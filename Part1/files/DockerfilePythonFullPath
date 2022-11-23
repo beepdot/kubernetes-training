@@ -1,0 +1,3 @@
+FROM python:alpine3.14
+COPY Part1/files/server.py /
+CMD ["python", "/server.py"]
