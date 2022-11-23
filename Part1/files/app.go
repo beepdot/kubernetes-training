@@ -8,7 +8,7 @@ import (
 )
 
 func hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "hello there\n")
+	fmt.Fprintf(w, "hello world\n")
 	fmt.Printf("%s %s %s\n", req.Host, req.Method, req.URL)
 	log.Printf("%s %s %s\n", req.Host, req.Method, req.URL)
 }
